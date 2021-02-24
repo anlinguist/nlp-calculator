@@ -1,9 +1,14 @@
 document.getElementById('calculator-input').addEventListener('keydown', function (e) {
     if (e.key === "Enter") {
         e.preventDefault();
+        console.log("clicked enter")
         processQuery()
     }
 }, false)
+
+document.getElementById('calculator-input').addEventListener('focusout', async function(event) {
+processQuery()
+})
 
 function operateOnEntry(userEntry) {
     let indexOfOperand;
@@ -46,7 +51,7 @@ function processQuery() {
         return
     }
     else {
-        query = query.replace("added to", "+").replace("divided by", "/").replace("times", "*").replace("minus", "-").replace("plus", "+").replace(/(?<=[^ ])-(?=[^ ])/g, " ").replace("raised to the power of", "^").replace("raised to", "^").replace(" x ", "*")
+        query = query.replace("added to", "+").replace("divided by", "/").replace("times", "*").replace("minus", "-").replace("plus", "+").replace(/([^ ])-([^ ])/g, "$1 $2").replace("raised to the power of", "^").replace("raised to", "^").replace(" x ", "*")
         parse = compendium.analyse(query);
         if (parse.length > 1) {
             alert("NLP Calculator can only accept one sentence as input.")
@@ -93,6 +98,9 @@ function processQuery() {
                 }
             }
         }
+    } 
+    if (typeof(queryArray[0]) !== "number") {
+        queryArray.unshift(0)
     }
     resolvedQuery = queryArray.join(" ")
     document.getElementById("queryresult").append(resolvedQuery)
