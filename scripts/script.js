@@ -62,6 +62,7 @@ function processQuery() {
         .replace(/([^ ])-([^ ])/g, "$1 $2")
         .replace("raised to the power of", "^")
         .replace("raised to", "^")
+        .replace("to the power of", "^")
         .replace(" x ", "*")
         .replace(/[tT]he sum of (.*?) and/, "$1 +")
         .replace(/[tT]he product of (.*?) and/, "$1 *")
