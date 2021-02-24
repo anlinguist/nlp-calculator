@@ -1,7 +1,6 @@
 document.getElementById('calculator-input').addEventListener('keydown', function (e) {
     if (e.key === "Enter") {
         e.preventDefault();
-        console.log("clicked enter")
         processQuery()
     }
 }, false)
@@ -51,13 +50,32 @@ function processQuery() {
         return
     }
     else {
-        query = query.replace("added to", "+").replace("divided by", "/").replace("times", "*").replace("minus", "-").replace("plus", "+").replace(/([^ ])-([^ ])/g, "$1 $2").replace("raised to the power of", "^").replace("raised to", "^").replace(" x ", "*")
+
+        query = query.replace("added to", "+")
+        .replace("divided by", "/")
+        .replace("times", "*")
+        .replace("minus", "-")
+        .replace("plus", "+")
+        .replace("added to", "+")
+        .replace("multiplied by", "*")
+        .replace(/([0-9])(\+|\*|\-|\/|x)([0-9])/, "$1 $2 $3")
+        .replace(/([^ ])-([^ ])/g, "$1 $2")
+        .replace("raised to the power of", "^")
+        .replace("raised to", "^")
+        .replace(" x ", "*")
+        .replace(/[tT]he sum of (.*?) and/, "$1 +")
+        .replace(/[tT]he product of (.*?) and/, "$1 *")
+        .replace(/[wW]hat (is|does)/, "")
+        .replace(/[hH]ow much (does|is)/, "")
+        .replace(/equal( to)?/, "")
+        .replace("?", "")
+
+
         parse = compendium.analyse(query);
         if (parse.length > 1) {
             alert("NLP Calculator can only accept one sentence as input.")
             return
         }
-        console.log(parse)
         tokens = parse[0]['tokens']
         next = false
         queryArray = []
